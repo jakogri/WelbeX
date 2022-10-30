@@ -32,7 +32,8 @@ class App extends Component {
      ]  
     this.state.conditions = this.conditions_name;
   }
-
+  
+  //Устанавка кнопок пагинации
   setPgButons = async(n) =>{
     let loc_pg_buttons = [];
     for(let i = 1; i <= this.state.pg_butons_count; i++){
@@ -44,6 +45,7 @@ class App extends Component {
     this.setState({pg_butons: loc_pg_buttons});
   }
 
+  // Переход на нужную страницу по кнопкам пагинации 
   setPage = async(event) =>{
     let curpage = parseInt(event.target.name, 10);
     await this.setTableLoc((curpage-1)*6); 
@@ -51,6 +53,7 @@ class App extends Component {
     this.render(); 
   }
 
+  //Заполненин текущей страницы
   setTableLoc = async(start_rou) =>{
     let table1 = []
     for(let i = start_rou; i < ((start_rou + 6)<this.state.rows_count?start_rou + 6:this.state.rows_count); i++){
@@ -68,6 +71,7 @@ class App extends Component {
     this.setState({table_loc: table1});
   }
 
+  //Выбор таблицы из базы данных
   getTable = async() =>{
    axios({
     method: 'post',
@@ -95,12 +99,14 @@ class App extends Component {
     })
   }  
 
+  //Реакция на кнопку перезагрузки таблицы 
   handleChangeGetTable = async(event) =>{
   this.setState({ getTable: true});
   this.getTable();
   this.setState({ getTable: false});
   }  
 
+  // Реакция на выбор поля в фильтре
  handleChangeField = async(event) =>{
    this.setState({field: event.target.value});
     if (event.target.value == 'obj_name')
@@ -109,12 +115,12 @@ class App extends Component {
     this.render();
   }
 
+  //Реакция на выбор условия в фильтре
   handleChangeOperation = async(event) =>{
-    console.log("Операция" + event.target.value);
     this.setState({operation: event.target.value});
-    console.log("Операция в state" + this.state.operation);
    }
-
+  
+  //Реакция на выбор значения поля в фильтре
   handleChangeFieldVale = async(event) =>{
     let help_value;
     let i;
